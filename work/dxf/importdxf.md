@@ -18,3 +18,8 @@
 - 使用数据进行构造item
 
   构造item需要传入一个`board`
+
+### 遇到问题
+
+- 导入 Polyline
+  导入 Polyline 和 Vertex 是分开导入的，但是 Polyline 属性又包括了 Vertex,所以需要设计一个类来将 vertex 信息加入到 polyline 的属性中
