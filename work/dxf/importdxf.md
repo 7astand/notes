@@ -13,6 +13,12 @@
   需要在`addLayer()`方法中添加自定义内容实现将dxf文件中数据构造为各种item。
   
   Debug时一定要注意函数的参数列表，调用了哪个方法。
+
+- 添加polyline 时需要添加顶点数据
+
+  polyline数据是包含顶点数据的，要在addvertex 中把顶点数据写入
+
+
 ## 构造item
 
 - 使用数据进行构造item
