@@ -1,8 +1,11 @@
-# synchronization note
+# Synchronization Note
 
-## c++
+## Programming
 
-### QT
+### IDE
 
-## git
+### Linux
 
+### Windows
+
+## Work
