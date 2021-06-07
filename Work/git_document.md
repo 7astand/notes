@@ -19,4 +19,11 @@ git config --global --unset https.proxy
 git config --global --unset http.proxy
 # 查看全局配置信息
 git config --global -l
+# 查看已关联分支信息
+git branch -vv
+git remote show origin
+cat .git/config
+# git push
+git push <远程主机名> <本地分支名>:<远程分支名>
+git push origin master
 ```
