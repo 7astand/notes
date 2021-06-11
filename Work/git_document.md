@@ -26,4 +26,7 @@ cat .git/config
 # git push
 git push <远程主机名> <本地分支名>:<远程分支名>
 git push origin master
+# git rebase
+git rebase <目标分支>
+#将当前分支变基到目标分支.接在目标分支后面
 ```
