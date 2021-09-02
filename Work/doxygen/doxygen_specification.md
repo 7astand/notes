@@ -68,8 +68,10 @@ Doxygen 常用的注释标记（标记以 / 或 @ 开头表示）：
 添加注意事项
 @note 注意事项
 ```
+
 ## c++ 注释风格
 
+```cpp
 ////
 /// 下面是一个含有两个参数的函数的注释说明（简述）   
 ///    
@@ -79,5 +81,5 @@ Doxygen 常用的注释标记（标记以 / 或 @ 开头表示）：
 ///     @return    测试结果 （return描述返回值）   
 ///     @see    Test()    （本函数参考其它的相关的函数，这里作一个链接）  
 ///     @note    (note描述需要注意的问题)    
-int testMe(int a,const char *s);  
-5.4.8       枚举变量的注释示例
+int testMe(int a,const char *s);
+```

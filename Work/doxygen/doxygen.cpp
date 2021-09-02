@@ -1,4 +1,4 @@
-/*
+/**
  * @author 作者信息
  * @date 日期
  * @version 版本
@@ -11,7 +11,7 @@
 namespace rededa
 {
 
-/*
+/**
  * @brief 这里描述类的功能和用法
  *  
  * 下面写一个例子example 使用方法
@@ -25,7 +25,7 @@ private:
 public:
     doxygen(/* args */);
     ~doxygen();
-/*
+/**
  * @brief 描述函数的功能
  * @param 参数
  * @return 该函数的返回值

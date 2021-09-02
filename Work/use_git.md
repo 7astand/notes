@@ -1,8 +1,8 @@
 # use git
 
-1. gitee 新建一个repository
-2. 使用 git init本地 创建一个 git repository 
-3. 使用 git clone 从远程仓库 clone 
+1. gitee 新建一个 repository
+2. 使用 git init 本地 创建一个 git repository
+3. 使用 git clone 从远程仓库 clone
 4. git config --global user.name "John Doe"
 5. git config --global user.email "johndoe@example.com"
 6. 在本地添加文件后使用 git add 文件名 提交改变。

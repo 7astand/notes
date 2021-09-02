@@ -1,3 +1,6 @@
+# shell
+
+```shell
 #!/bin/bash
 
 read  -p "enter grade:" GRADE
@@ -13,3 +16,4 @@ then
 else 
     echo "not pass"
 fi
+```
