@@ -23,6 +23,8 @@ git config --global -l
 git branch -vv
 git remote show origin
 cat .git/config
+# 查看远程版本库分支列表
+git branch -r
 # git push
 git push <远程主机名> <本地分支名>:<远程分支名>
 git push origin master
@@ -36,4 +38,12 @@ git reflog
 # 查看一下git log
 # 找到想要回退到的那一次commit
 git reset --hard HEAD@{n}
+# 在指定远程分支创建同名分支并切换过去
+git checkout -t origin/feature
+# 删除本地分支
+# 分支中有一些未merge的提交会删除失败,把 -d 换成 -D 可以强制删除分支
+git branch -d 分支名
+# 给分支重命名
+git branch -m oldname newname
+# 解决冲突后需要使用 git add 告诉 git 冲突已解决
 ```
