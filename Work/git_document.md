@@ -80,5 +80,8 @@ git remote set-url --add origin 新的url
 # 删除暂存区和工作区的文件
 git rm filename
 # 只删除暂存区的文件，不会删除工作区的文件
+# 可以用来更改文件名大小写
 git rm --cached filename
+# 更改工作区或者暂存区的名字
+git mv oldname newname
 ```
