@@ -77,4 +77,8 @@ git remote -v
 # 给已有的名为 name 的远程仓库 添加新的 url
 git remote set-url --add <name> <url>
 git remote set-url --add origin 新的url
+# 删除暂存区和工作区的文件
+git rm filename
+# 只删除暂存区的文件，不会删除工作区的文件
+git rm --cached filename
 ```
