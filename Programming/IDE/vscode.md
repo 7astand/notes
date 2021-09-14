@@ -19,3 +19,41 @@ pacman -S  mingw-w64-x86_64-gcc
 pacman -S  mingw-w64-x86_64-toolchain
 pacman -S  mingw-w64-x86_64-qt5
 ```
+
+vscode 配置环境
+配置文件 `.vscode/c_cpp_properties.json`
+
+```jason
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "D:/Programs/Programming/MSYS2/mingw64/include/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "D:/Programs/Programming/MSYS2/mingw64/bin/gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64",
+            "configurationProvider": "vector-of-bool.cmake-tools",
+            // "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}
+```
+
+- Linux
+
+vscode 配置 c++ 开发环境
+配置文件 `.vscode/c_cpp_properties.json`
+
+```json
+
+```
