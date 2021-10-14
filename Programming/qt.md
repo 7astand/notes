@@ -56,3 +56,26 @@
 - widget window 窗体主窗口关闭后,子窗口还存在
   先说结论 对子窗体设置一个属性 `setAttribute(Qt::WA_QuitOnClose,false);`
   每个 `Qt::Window` 类型的 widget 都有,默认都为 `true`
+
+## QListWidget
+
+- listwidget 中的项目是 listwidgetitem 
+  想要删除项目的话,需要使用 `QListWidgetItem * takeItem(int row)` 这个方法返回一个 QlistWidgetItem* 想要彻底删除它需要手动释放这个内存使用 delete
+  需要注意的是这个方法传入的是个行号
+- listwidget 有排序功能,默认是关闭的
+  使用 `void setSortingEnable(bool)` 开启,开启后还可以使用 `void sortItems(Qt::SortOrder order = Qt::AscendingOrder)` 方法进行排序
+- listwidget 有查找指定的 listwidgetitem 功能 使用 `QList<QListWidgetItem *> findItems(const QString &text, Qt::MatchFlags flags) const` 查找指定的 item,可以有多种匹配模式,
+
+## QFileInfo 和 QDir
+
+- QFileInfo 是文件相关的类,存储的有文件的相关信息,后缀,文件名,文件路径等信息
+  `bool exists() const` 方法返回文件是否存在
+  `QString baseName() const` 方法返回文件名不带后缀
+  `qint64 size() const` 返回文件大小
+  `QString QFileInfo::fileName() const` 返回不包括路径的文件名
+  `QString QFileInfo::filePath() const` 返回文件的路径,可以使相对路径也可以是绝对路径
+  `QString QFileInfo::suffix() const` 返回文件的后缀名,返回最后一个 `.` 之后 (但不包括) 的所有字符
+- QDir 能得到指定路径的文件信息
+  `void setPath(QString path)` 设置路径信息
+  `void setNameFilters(const QStringList &nameFilters)` 设置文件筛选器
+  `QFileInfoList entryInfoList(QDir::Filters filters = NoFilter, QDir::SortFlags sort = NoSort) const` 得到所设置的指定路径和指定文件筛选器后的 QFileInfoList
