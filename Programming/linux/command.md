@@ -25,3 +25,10 @@
   ```shell
   useradd –d  /home/sam -m sam
   ```
+
+- 使用权限执行上次的命令
+  一般用在敲了很长命令但是没有使用 sudo 权限
+  
+  ```shell
+  sudo !!
+  ```
