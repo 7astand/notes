@@ -91,3 +91,24 @@ git 配置
 
 git revert 撤销一次提交 A (commit) 生成一个新的 提交 B (commit) 将提交 A 的变动撤销
 `git revert < commitr-harsh>`
+
+## git 提交远程
+
+- git cherry-pick 从别的分支拿到某个提交,到当前分支上
+  有些时候需要拿到其他的分支上的某个提交到当前分支,但是又不想去 merge,这时候就需要用 git cherry-pick 去拿到某一次的提交到当前分支
+  - 参数
+  `-n`, `--no-commit`
+  不产生新的提交,只更新工作区和暂存区的内容
+  `-x`
+  在末尾追加一行的 cherry pick from commit,方便以后这个提交是如何产生的
+  `-s`, `--signoff`
+  在末尾追加一行操作者的姓名,表示是谁进行了这个操作
+  `git cherry-pick <commithash>`
+  拿到某一次提交的 hash,把这一次提交放到当前分支
+  `git cherry-pick A^..B`
+  拿从 A 到 B 之间的提交到当前分支,**包括** A 提交,这个命令 A 提交一定要早于 B 提交,否则失败但是不会报错
+  拿从 A 到 B 之间的提交到当前分支,**不包括** A 提交
+  `git cherry-pick A..B`
+  如果 `git cherry-pick` 过程中出现了冲突,解决方式和 `git rebase` 时类似,解决完冲突后,需要使用 `git add .` 将文件加入暂存区,再使用 `git cherry-pick --continue` 继续执行 cherry-pick 操作
+  如果 cherry-pick 中发生了冲突,想要放弃操作,回到操作前的样子,使用 `git cherry-pick --abort`
+  *git cherry-pick* 操作还可以拿别的仓库的 commit 到当前分支
