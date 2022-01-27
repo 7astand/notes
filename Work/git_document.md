@@ -31,6 +31,7 @@ git 配置
 `git push origin` 如果当前分支和远程的分支存在追踪关系,则本地分支和远程分支都可以省略,将当前分支推送到 origin 主机的对应追踪分支
 `git push` 如果当前分支只有一个远程分支,那么主机名都可以省略
 `git push -u origin master` 如果当前分支与多个主机存在追踪关系,则可以使用 -u 参数来指定一个默认主机,这样后边可以不加任何参数使用 `git push`
+`git branch --set-upstream-to origin</name> branchname` 将本地的分支和远程分支关联起来,下次的 `git push` 可以不加任何参数
 - git rebase
   总的原则是,只对尚未推送或者没有分享给别人的本地修改执行变基操作清理历史
   从不对已推送到别处的代码执行变基操作
