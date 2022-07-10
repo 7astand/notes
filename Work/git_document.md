@@ -232,3 +232,79 @@ git 拿取提交
     > 如果 cherry-pick 中发生了冲突,想要放弃操作,回到操作前的样子,使用 `git cherry-pick --abort`
 
     > git cherry-pick 操作还可以拿别的仓库的 commit 到当前分支
+
+## git 配置
+
+- git 配置 SSH keys
+
+  参考配置github文档[生成SSH keys](https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+
+  - generate SSH key
+  
+    1. 打开terminal
+    2. 粘贴下边这段代码
+
+        ```shell
+        $ ssh-keygen -t ed25519 -C "your_email@example.com" 
+        ```
+    3. 出现提示
+
+        ``` shell
+        > Enter a file in which to save the key (/Users/you/.ssh/id_algorithm): [Press enter]
+        ```
+        按回车 ENTER 按键，将会放在默认位置
+
+    4. 出现是否需要为访问密钥设置密码的提示
+
+        ```shell
+        > Enter passphrase (empty for no passphrase): [Type a passphrase]
+        > Enter same passphrase again: [Type passphrase again]
+        ```
+        不需要设置这个密码的话就按回车 ENTER 键就好
+
+- git 配置多个 SSH Keys
+
+  配置多个 SSH keys ，比如为 github 配置一个密钥，为 gitee 配置一个密钥
+
+  - generate SSH key
+
+    1. 生成为 github 使用的密钥
+
+        ```shell
+        ssh-keygen -t ed25519 -C "xxx@github.com" -f ~/.ssh/github_id_ed25519
+        ```
+
+    2. 生成为 gitee 使用的密钥
+
+        ```shell
+        ssh-keygen -t ed25519 -C "xxx@gitee.com" -f ~/.ssh/gitee_id_ed25519
+        ```
+
+    3. 配置 config 文件
+
+        在 ~/.ssh/ 目录下新建一个 config 文件，添加一下内容
+
+        ```shell
+        #github
+        Host github.com
+            AddKeysToAgent yes
+            UseKeychain yes
+            IdentityFile ~/.ssh/github_id_ed25519
+
+        Host gitee.com
+            AddKeysToAgent yes
+            UseKeychain yes
+            IdentityFile ~/.ssh/gitee_id_ed25519
+        ```
+
+    4. 用 ssh 命令测试连通性
+
+        ```shell
+        $ ssh -T git@gitee.com
+        $ ssh -T git@github.com
+        ```
+
+        github 测试连接成功会返回如下
+
+        >Hi xxx! You've successfully authenticated, but GitHub does not provide shell access.
+
