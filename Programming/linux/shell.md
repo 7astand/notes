@@ -30,4 +30,20 @@
         command3
         ;;
     esac
-    
+
+- for 使用
+
+    {1..9} # 生成1-9的数字
+    for i in {1..9}
+    do
+        echo $i
+    done
+
+    批量修改文件名后缀
+    ```shell
+      for filename in `ls *.mp3`
+      do
+          mv $filename ${basename $filename .mp3}.mp4
+      done
+    ```
+    basename filename suffix 拿到的是文件的basename 基本名，除去suffix的文件名
