@@ -16,4 +16,18 @@
     修改完不会立即生效，有两种方式
     1. 退出用户，终端再登陆
     2. source /etc/bashrc source + 修改的配置文件路径
+
+- case 使用
+
+    case "condition" in # 要匹配的条件
+        "1")    #匹配的第一个条件
+        command1 # 要执行的命令
+        ;;
+        "2")
+        command2
+        ;;
+        *) # 通配符
+        command3
+        ;;
+    esac
     
