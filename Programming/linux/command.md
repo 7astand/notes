@@ -97,3 +97,15 @@
   ```shell
   sudo !!
   ```
+
+- find
+
+  查找
+  find path -iname "expression"
+  * path
+
+    表示路径
+  * iname 
+
+    表示查找 expression 的名字，i 表示不区分大小写
+    expression 可以包含正则表达式
