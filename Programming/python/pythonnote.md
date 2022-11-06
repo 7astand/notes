@@ -97,3 +97,52 @@
   c
   继续运行到下一个断点
   
+- 切片
+
+  __getitem__
+  __setitem__
+  实现了这两个特殊方法的类都可以切割
+  切片操作放在 = 左边
+  表示将切片范围内的元素用右边的值换掉
+
+- sort 要求 __lt__ 方法
+
+  排序依据的元素很多时，将 key= 方法返回一个tuple
+
+- 自定义 dict 插入顺序
+
+  3.7 后 dict的插入顺序和迭代时一致
+
+  OrderDict 适合使用 lru 缓存 last recently use
+  频繁的插入和弹出键值对
+
+- get方法处理dict中不存在的值
+
+- defaultdict 字典
+
+  每次键没在dict中，自动调用构造defaultdict时传入的 函数 生成默认值给 作为value，并将此键值对插入dict中
+
+- __missing__ 方法
+
+  dict 中没有这个key时调用这个函数
+
+- 闭包中使用外部变量
+
+  nonlocal 表示使用的是外部变量
+  global 表示使用的是全局变量 模块作用域的
+
+- 位置参数和关键字参数
+
+  类型注解
+  key: Optional[date] = None
+  表示key只能是date或者none
+
+  def func(a,b,/,*,key = 1):
+  / 左边的只能是位置参数，* 右边的只能是关键词参数
+  它们之间的参数两者都可以
+
+- 装饰器
+
+  functools.wraps
+  修饰装饰器
+  将被装饰的函数信息给返回出来
