@@ -356,6 +356,226 @@ Olog(N)
   会有误差，
   追求精确的话使用 hash set
 
+- geo 自定义数据结构
+
+  - 地图中存储经纬度信息
+
+    打车，单车应用中使用
+    key存储的车辆信息
+    value 存储经纬度信息 作为权重因子
+    使用 sortset 有序集合
+    value 中需要一个值
+    而经纬度是 两个值的组合 a，b 这样
+    引出需要使用 geohash
+    对经纬度进行N次二分
+    一次二分后落在左区间就 取 0 ，右区间取 1
+    经纬度 分别得到一个 N位二进制数
+    将经纬度组合起来作为 sorted set 的value 权重因子
+    具体做法
+    从左到右 偶数位从0开始，奇数从1开始
+    经度数据从 填充偶数位
+    纬度数据从 填充奇数位
+    经过geohash 后就可以就可以作为权重因子了
+
+     | 01  | 10  |
+     | --- | --- |
+     | 00  | 11  |
+    
+    映射为1维空间
+    00 01 10 11
+    都是相邻的格子
+
+    不过也有例外会有相聚很远的格子
+    比如使用 N为 4来分割
+    会有相邻很远的格子
+    0111 和 1000就相差很远
+
+    操作geo 类型
+    GEOADD 添加一组经纬度信息和对应id记录到GEO类型集合中
+    GEORADIUS 查询以给定经纬度为中心一定范围的其他元素
+
+    集合是 cars：locaton
+    GEOADD cars：location 116.03 39.03 33
+    
+    GEORADIUS cars：location 116.03 39.03 5 km ASC COUNT 10
+
+    查询 给定经纬度 范围 5km 内的从近到远 的 10辆车
+    ASC 从小到大
+    COUNT 指定数量
+
+  自定义数据类型
+
+  RedisObjedct 数据结构
+  包含
+  type  值的类型 五大基本类型
+  encoding  值编码方式 底层数据结构 SDS 跳表 压缩列表 哈希表
+  lru  最近一次访问时间，用于淘汰过期键值对
+  refcount  引用数量
+  ptr  数据指针
+
+  创建新的数据类型
+
+  需要指定 type 和 encoding 
+
+   1. 定义新数据类型的底层结构
+   2. 在RedisObject 中添加新数据类型的定义
+   3. 开发新类型的创建和释放函数
+   4. 开发新类型的操作函数
+
+  newtype.h 文件保存新类型的定义
+  struct newtype{
+    struct newtypenode* head;
+    size_t len;
+  }newtype;
+  struct newtypenode{
+    long value;
+    struct newtypenode* next;
+  };
+  相当于一个单向链表，存储的数据是long 型
+
+  在 redis type中添加类型定义
+  server.h
+  添加 OBJECT_NEWTYPE 宏
+
+  添加创建释放函数
+  robj* createnettypeobject(void){
+    newtype* t = newtypenew();
+    robj* o = createobject(OBJECT_NETTYPE,t);
+    return o;
+  }
+
+  newtypeobject* newtypenew(void){
+    newtpeojbect* n = zmalloc(sizeof (*n));
+    n->head = null;
+    n->len = 0;
+    return n;  
+  }
+
+  这个函数是redis中创建redisobject对象的方法
+  传入一个type
+  robj* createobject(int type,void* ptr){
+    robj* o = zmalloc(sizeof(*o));
+    o->type = type;
+    o->ptr = ptr;
+    ...
+    return o;
+  }
+  每个类型创建redis会为类型建一个新的文件
+  t_string.c
+  t_set.c
+  t_list.c
+  t_newtype.c
+
+  开发新对象的操作函数
+
+  t_newtype.c 中增加新的操作实现
+  void ninsertcommand(client* c){
+
+  }
+
+  在 server.h中声明这个函数
+  
+  在server.c 中使用这个函数
+  需要在 rediscommandtable struct中注册新函数
+  struct rediscommand rediscommandtables[]{
+    {"ninsert","ninsertcommand",2,...}
+  }
+  
+- redis时间戳数据
+
+  保存时间戳类型的数据
+  查询多方式，写入快，一般不修改写入的数据
+
+  key
+   device：temperature
+  value
+  value 使用 sortedset 和 hash 
+
+  sortedset 用时间戳做权重 score 类型作为 member
+  hash 支持快速通过时间戳查找数据
+  结合起来使用效果好
+  需要原子一致性
+  事务
+  mutti
+  exec
+  之间的命令会一起执行，保证数据一致性
+
+  如何对数据进行聚合计算，求一定范围的和，平均值等
+
+  使用 sortedset 和hash 
+  缺点
+  占用内存数据大
+  需要使用网络传输，将数据传输到客户端进行计算
+
+  引出一个第三方的模块
+  redistimeseris 模块
+
+  提供了几种操作方法
+
+  ts.create  创建时间数据集合
+  ts.add  插入数据
+  ts.get  获取数据
+  ts.mget  按标签过滤获取数据
+  ts.range  支持聚合范围计算
+
+  ts.create device:temperature retention 600000 labels device_id 1
+  600s 后数据就会自动删除，释放内存压力
+  labels 为数据添加标签
+  创建了一个key 为 device：temperature 的时间序列集合
+  
+- 消息队列
+
+  redis 5.0 前用 list
+  5.0 后用 stream
+  list 使用 lpush 和 rpop 实现先进先出
+  block 阻塞的
+  使用内部一个备份链表保存数据
+  在消费者读取数据时会把数据备份到一份到备份链表中
+
+  stream 消息队列
+  xread xwrite 
+  xread block 阻塞读
+  xpending xack 保证消息可靠
+  消费者读取消息 xpending 保存已读取数据
+  xack 消费者读取消息处理完会发送 xack 表示已处理完数据
+
+  stream 支持 分组读取
+  一个消息组内的数据只会被同组内其中一个消费者读取，读取完就为空了
+
+- redis 异步任务
+
+  影响redis 性能，会导致redis阻塞的操作
+  客户端请求一次操作，需要redis服务端返回一个数据给客户端，客户端根据数据再进行操作，这时redis会阻塞
+
+  - set集合的全量查询和聚合操作
+
+    客户端查询后需要使用数据，这个操作不不能使用异步，子线程来操作
+    解决办法，用scan一次读取少量元素，在客户端进行聚合计算
+
+  - 从库和主库的数据同步，从库加载rdb文件
+  
+    rdb文件保持在2g-4g，不要太大
+
+  - aof日志的写入
+
+    使用异步子线程进行aof日志写入
+
+  - 清空数据库
+
+    使用异步操作
+    lazy delete
+    一次清除少量数据
+
+  - 删除bigkey
+
+    一次读取少量元素删除
+
+  redis 会在启动创建实例时启动三个子线程
+  主线程通过任务队列和三个子线程交互
+  文件关闭
+  键值对删除
+  aof文件写
+
 
 
 
