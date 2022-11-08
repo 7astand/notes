@@ -146,3 +146,28 @@
   functools.wraps
   修饰装饰器
   将被装饰的函数信息给返回出来
+
+- 类
+
+  类的构造使用 super().__init__()
+
+  class base:
+    def __init__(self,value):
+        self.value =value
+
+  class derived:
+    def __init__(self,value):
+        super().__init__(value)
+
+  @classmethod
+  类方法，第一个参数为cls表示是类参数
+  cls(...) 构造具体的子类对象
+
+  mix-in 可组合功能
+
+  类内 默认为public属性
+  _a 单下划线开头为受保护（约定，实际还是可以访问
+  __b 双下划线开头为私有，父类会添加 _parent__b 为父类的名字
+
+  自定义容器从 collectinos.abc 继承 
+  重写一些方法
