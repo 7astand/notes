@@ -15,3 +15,5 @@ awk -F , {print $NF} filename
     F 表示分隔符是 ,
     $NF 表示最后一个字段
     filename 要处理的文件名
+
+分为模式和处理行

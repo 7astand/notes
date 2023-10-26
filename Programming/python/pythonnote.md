@@ -171,3 +171,41 @@
 
   自定义容器从 collectinos.abc 继承 
   重写一些方法
+
+- 元类和 __init_subclass__() 方法
+
+  __init_subclass__()
+  可以在子类实例例化的时候调用
+
+  class serialize:
+    def __init__(self,*args):
+      self.args=args
+    def serializeable(self):
+      return json.dump(
+        'class':self.__class__.__name__,
+        'args':self.args
+      )
+  registry={}
+
+  def register_class(target_class):
+    registry[target_class.__name__] = target_class
+
+  def deserialize(data):
+    params = json.load(data)
+    name = params['class']
+    target_class =  registry[name]
+
+    return target_class(*params['args'])
+
+  class base(serialize):
+    def __init_subclass__(cls):
+      super().__init_subclass__()
+      register_class(cls)
+
+  class deverized(base):
+    def __init__(self,mimdata):
+      super().__init__(mimdata)
+      self.mimdata=mimdata
+
+  deverized support de/serialized
+  init_subclass 支持在子类序列化时候调用
