@@ -296,6 +296,7 @@ git 拿取提交
             UseKeychain yes
             IdentityFile ~/.ssh/gitee_id_ed25519
         ```
+        或者使用 `ssh-add ~/.ssh/github_id_ed25519` 将私钥添加到 ssh-agent
 
     4. 用 ssh 命令测试连通性
 
