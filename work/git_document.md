@@ -309,3 +309,11 @@ git 拿取提交
 
         >Hi xxx! You've successfully authenticated, but GitHub does not provide shell access.
 
+- 删除 gitmodules
+  `git rm modules_path`
+
+- 添加 gitmodules
+  `git submodule add submodule_url local_submodule_path`
+  会自动在 `.gitmodules` 增加 `submodule` 的配置
+
+
